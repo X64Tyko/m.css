@@ -3632,6 +3632,8 @@ def parse_xml(state: State, xml: str):
             kind = EntryType.PAGE
         elif compound.kind == 'group':
             kind = EntryType.GROUP
+        elif compound.kind == 'concept':
+            kind = EntryType.CLASS
         else: assert False # pragma: no cover
 
         result = Empty()
@@ -3713,7 +3715,7 @@ def parse_index_xml(state: State, xml):
                 top_level_namespaces += [entry]
             elif compound.kind == 'group':
                 top_level_modules += [entry]
-            elif compound.kind in ['class', 'struct', 'union']:
+            elif compound.kind in ['class', 'struct', 'union', 'concept']:
                 top_level_classes += [entry]
             elif compound.kind == 'dir':
                 top_level_dirs += [entry]
@@ -3736,7 +3738,7 @@ def parse_index_xml(state: State, xml):
                     orphan_pages[compound.parent] = {}
                 orphan_pages[compound.parent][entry.id] = entry
             else:
-                assert compound.kind in ['class', 'struct', 'union', 'file']
+                assert compound.kind in ['class', 'struct', 'union', 'concept', 'file']
                 if not compound.parent in orphans:
                     orphans[compound.parent] = []
                 orphans[compound.parent] += [entry]
