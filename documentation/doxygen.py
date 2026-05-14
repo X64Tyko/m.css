@@ -2473,7 +2473,7 @@ def extract_metadata(state: State, xml):
         return
     assert len([i for i in root]) == 1
 
-    if compounddef.attrib['kind'] not in ['namespace', 'group', 'class', 'struct', 'union', 'dir', 'file', 'page']:
+    if compounddef.attrib['kind'] not in ['namespace', 'group', 'class', 'struct', 'union', 'concept', 'dir', 'file', 'page']:
         logging.debug("No useful info in {}, skipping".format(state.current))
         return
 
@@ -2596,7 +2596,7 @@ def postprocess_state(state: State):
             compound.leaf_name = compound.name.rpartition('::')[2]
 
         # Strip parent namespace/class from symbol name
-        elif compound.kind in ['struct', 'class', 'union']:
+        elif compound.kind in ['struct', 'class', 'union', 'concept']:
             prefix = state.compounds[compound.parent].name + '::'
             assert compound.name.startswith(prefix)
             compound.leaf_name = compound.name[len(prefix):]
