@@ -708,7 +708,7 @@ def parse_desc_internal(state: State, element: ET.Element, immediate_parent: ET.
             # simplesect titles are handled directly inside simplesect
             if not element.tag == 'simplesect':
                 id = extract_id_hash(state, element)
-                title = html.escape(i.text)
+                title = html.escape(i.text or '')
 
                 # Populate section info for top-level desc
                 if state.parsing_toplevel_desc:
@@ -2878,7 +2878,7 @@ def parse_xml(state: State, xml: str):
 
     # Build breadcrumb. Breadcrumb for example pages is built after everything
     # is parsed.
-    if compound.kind in ['namespace', 'group', 'struct', 'class', 'union', 'file', 'dir', 'page']:
+    if compound.kind in ['namespace', 'group', 'struct', 'class', 'union', 'concept', 'file', 'dir', 'page']:
         # Gather parent compounds
         path_reverse = [compound.id]
         while path_reverse[-1] in state.compounds and state.compounds[path_reverse[-1]].parent:
