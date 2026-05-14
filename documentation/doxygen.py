@@ -2714,6 +2714,9 @@ def build_search_data(state: State, merge_subtrees=True, add_lookahead_barriers=
             suffix_length += len(html.unescape(result.suffix))
 
         # TODO: escape elsewhere so i don't have to unescape here
+        if None in result.prefix or name_with_args is None:
+            logging.warning("build_search_data: skipping result with None in prefix={} name={} url={}".format(result.prefix, name_with_args, result.url))
+            continue
         index = map.add(html.unescape(joiner.join(result.prefix + [name_with_args])), result.url, suffix_length=suffix_length, flags=result.flags)
 
         # Add functions and function macros the second time with () appended,
